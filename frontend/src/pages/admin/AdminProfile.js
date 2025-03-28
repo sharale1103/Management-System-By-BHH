@@ -1,63 +1,93 @@
-// import React, { useState } from 'react';
-// import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material'
-// import { useDispatch, useSelector } from 'react-redux';
-// import { deleteUser, updateUser } from '../../redux/userRelated/userHandle';
-// import { useNavigate } from 'react-router-dom'
-// import { authLogout } from '../../redux/userRelated/userSlice';
-// import { Button, Collapse } from '@mui/material';
+ import React, { useState } from 'react';
+ import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material'
+ import { useDispatch, useSelector } from 'react-redux';
+ import { deleteUser, updateUser } from '../../redux/userRelated/userHandle';
+ import { useNavigate } from 'react-router-dom'
+ import { authLogout } from '../../redux/userRelated/userSlice';
+ import { Button, Collapse } from '@mui/material';
+import { Card, CardContent, Typography, Grid, Box, Avatar, Container, Paper } from '@mui/material';
+import styled from 'styled-components';
 
-import { useSelector } from 'react-redux';
 
 const AdminProfile = () => {
-    // const [showTab, setShowTab] = useState(false);
-    // const buttonText = showTab ? 'Cancel' : 'Edit profile';
+     const [showTab, setShowTab] = useState(false);
+     const buttonText = showTab ? 'Cancel' : 'Edit profile';
 
-    // const navigate = useNavigate()
-    // const dispatch = useDispatch();
-        const { currentUser } = useSelector((state) => state.user);
-    // const { currentUser, response, error } = useSelector((state) => state.user);
-    // const address = "Admin"
+     const navigate = useNavigate()
+     const dispatch = useDispatch();
+    
+     const { currentUser, response, error } = useSelector((state) => state.user);
+     const address = "Admin"
 
-    // if (response) { console.log(response) }
-    // else if (error) { console.log(error) }
+     if (response) { console.log(response) }
+     else if (error) { console.log(error) }
 
-    // const [name, setName] = useState(currentUser.name);
-    // const [email, setEmail] = useState(currentUser.email);
-    // const [password, setPassword] = useState("");
-    // const [schoolName, setSchoolName] = useState(currentUser.schoolName);
+     const [name, setName] = useState(currentUser.name);
+     const [email, setEmail] = useState(currentUser.email);
+     const [password, setPassword] = useState("");
+     const [schoolName, setSchoolName] = useState(currentUser.schoolName);
 
-    // const fields = password === "" ? { name, email, schoolName } : { name, email, password, schoolName }
+     const fields = password === "" ? { name, email, schoolName } : { name, email, password, schoolName }
 
-    // const submitHandler = (event) => {
-    //     event.preventDefault()
-    //     dispatch(updateUser(fields, currentUser._id, address))
-    // }
+     const submitHandler = (event) => {
+         event.preventDefault()
+         dispatch(updateUser(fields, currentUser._id, address))
+     }
 
-    // const deleteHandler = () => {
-    //     try {
-    //         dispatch(deleteUser(currentUser._id, "Students"));
-    //         dispatch(deleteUser(currentUser._id, address));
-    //         dispatch(authLogout());
-    //         navigate('/');
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }
+     const deleteHandler = () => {
+         try {
+             dispatch(deleteUser(currentUser._id, "Students"));
+            dispatch(deleteUser(currentUser._id, address));
+             dispatch(authLogout());
+             navigate('/');
+         } catch (error) {
+             console.error(error);
+         }
+     }
 
     return (
         <div>
-            Name: {currentUser.name}
-            <br />
-            Email: {currentUser.email}
-            <br />
-            School: {currentUser.schoolName}
-            <br />
-            {/* <Button variant="contained" color="error" onClick={deleteHandler}>Delete</Button> */}
-            {/* <Button variant="contained" sx={styles.showButton}
+   
+        <> <StyledPaper elevation={3}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Box display="flex" justifyContent="center">
+                <Avatar alt="Student Avatar" sx={{ width: 150, height: 150 }}>
+                  {String(currentUser.name).charAt(0)}
+                </Avatar>
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box display="flex" justifyContent="center">
+                <Typography variant="h5" component="h2" textAlign="center">
+                  {currentUser.name}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box display="flex" justifyContent="center">
+                <Typography variant="subtitle1" component="p" textAlign="center">
+                Email: {currentUser.email}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box display="flex" justifyContent="center">
+                <Typography variant="subtitle1" component="p" textAlign="center">
+                  School: {currentUser.schoolName}
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </StyledPaper></>
+
+
+            { <Button variant="contained" color="error" onClick={deleteHandler}>Delete</Button> }
+            { <><Button variant="contained" sx={styles.showButton}
                 onClick={() => setShowTab(!showTab)}>
                 {showTab ? <KeyboardArrowUp /> : <KeyboardArrowDown />}{buttonText}
             </Button>
-            <Collapse in={showTab} timeout="auto" unmountOnExit>
+           <Collapse in={showTab} timeout="auto" unmountOnExit>
                 <div className="register">
                     <form className="registerForm" onSubmit={submitHandler}>
                         <span className="registerTitle">Edit Details</span>
@@ -88,18 +118,22 @@ const AdminProfile = () => {
                         <button className="registerButton" type="submit" >Update</button>
                     </form>
                 </div>
-            </Collapse> */}
+            </Collapse></> }
         </div>
     )
 }
 
 export default AdminProfile
 
-// const styles = {
-//     attendanceButton: {
-//         backgroundColor: "#270843",
-//         "&:hover": {
-//             backgroundColor: "#3f1068",
-//         }
-//     }
-// }
+const styles = {
+     attendanceButton: {
+         backgroundColor: "#270843",
+         "&:hover": {
+             backgroundColor: "#3f1068",
+         }
+     }
+ }
+const StyledPaper = styled(Paper)`
+  padding: 20px;
+  margin-bottom: 20px;
+`;
